@@ -4,10 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./SSEInstance.js"></script>
     <title>Document</title>
 </head>
 <body>
     <!-- github 个人博客 -->
     <h1>hello world! alex</h1>
+    <button id="btn3">SSE连接</button>
+    <button id="btn4">SSE关闭</button>
+    <div id="result"></div>
+    <script>
+        var btn3=document.querySelector("#btn3");
+        var btn4=document.querySelector("#btn4");
+        let instance
+        btn3.onclick = function () {
+           instance =  new SSEInstance("https://alex.i996.me/openai/completion?wd=阿里巴巴", {
+                onopen: (e) => { 
+                    console.log("open", e)
+                },
+                onerror: (e) => {
+                    console.log('error', e);
+                    
+                },
+                onmessage: (msg) => {
+                    result.innerHTML+=msg
+                }
+            } )
+        }
+        btn4.onclick = function () {
+            instance.close()
+            result.innerHTML+="<strong>关闭连接</strong><br/>";
+        }
+    </script>
 </body>
 </html>
